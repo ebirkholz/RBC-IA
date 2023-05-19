@@ -1,6 +1,10 @@
 package br.univali;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Hashtable;
 
 public class LeCores {
@@ -23,8 +27,10 @@ public class LeCores {
         int cont = 0;
         String cores[] = new String[6];
         try {
+            InputStream inputStream = this.getClass().getResourceAsStream(file);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            br = new BufferedReader(inputStreamReader);
 
-            br = new BufferedReader(new FileReader(file));
             while ((linha = br.readLine()) != null) {
                 String[] valores = linha.split(csvDivisor);
                 for (int i = 0; i < valores.length; i++) {
