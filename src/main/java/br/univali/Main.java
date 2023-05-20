@@ -40,7 +40,9 @@ public class Main {
 
         List<Map<String, String>> similarCases = rbc.findSimilarCases(rbcDados, 0.8);
 
-        // TODO: decidir se o usuário comprou o carro ou não e adicionar novo caso na base de dados e .cvs
+        /* TODO: decidir se o usuário comprou o carro ou não e adicionar novo caso na base de dados e .cvs
+            database = Rbc.database
+         */
 
         for (Map<String, String> similarCase : similarCases) {
             System.out.println(similarCase);
