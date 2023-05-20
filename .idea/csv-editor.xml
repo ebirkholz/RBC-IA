@@ -3,21 +3,21 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\src\csv\RBC_Venda_Carros_Matriz_Base_Dados.csv">
+        <entry key="\resources\RBC_Venda_Carros_Matriz_Base_Dados.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="\src\csv\RBC_Venda_Carros_Matriz_Cor.csv">
+        <entry key="\resources\RBC_Venda_Carros_Matriz_Cor.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="\src\csv\RBC_Venda_Carros_Matriz_Modelo.csv">
+        <entry key="\resources\RBC_Venda_Carros_Matriz_Modelo.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
