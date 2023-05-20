@@ -24,6 +24,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\target\classes\RBC_Venda_Carros_Matriz_Base_Dados.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\target\classes\RBC_Venda_Carros_Matriz_Cor.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>

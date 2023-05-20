@@ -43,9 +43,15 @@ public class CsvHelper {
                 throw new RuntimeException("Arquivo não encontrado!");
             }
 
+            CSVReader reader = new CSVReader(new FileReader(fileUrl.getFile()));
+            List<String[]> linhasFinal = new ArrayList<>();
+            linhasFinal.addAll(reader.readAll());
+            linhasFinal.addAll(linhas);
+            reader.close();
+
             CSVWriter writer = new CSVWriter(new FileWriter(fileUrl.getFile()));
 
-            for (String[] linha : linhas) {
+            for (String[] linha : linhasFinal) {
                 writer.writeNext(linha, false);
             }
 
@@ -66,13 +72,13 @@ public class CsvHelper {
 
             List<String> dados = Files.readAllLines(Paths.get(fileUrl.toURI()));
 
-            FileWriter fileWriter = new FileWriter(fileUrl.toURI().toString(), true);
+            FileWriter fileWriter = new FileWriter(Paths.get(fileUrl.toURI()).toFile().getPath(), false);
             PrintWriter printWriter = new PrintWriter(fileWriter);
 
             for (int i = 0; i < dados.size(); i++) {
                 String[] linha = dados.get(i).split(",");
                 List<String> linhaDados = new ArrayList<>(Arrays.asList(linha));
-                linhaDados.add(dados.size() + 1, nomePesos[i]);
+                linhaDados.add(dados.size(), nomePesos[i]);
                 printWriter.println(String.join(",", linhaDados));
             }
 
