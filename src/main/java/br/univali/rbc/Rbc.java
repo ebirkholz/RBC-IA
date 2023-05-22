@@ -14,8 +14,9 @@ public class Rbc {
     private List<List<Double>> modeloSimilarityMatrix;
     private String[] chavesCor;
     private String[] chavesModelo;
+    private String[] chaves;
 
-    public Rbc() {
+    public Rbc(){
         this.populateDatabase();
         this.populateCor();
         this.populateModelo();
@@ -23,6 +24,7 @@ public class Rbc {
 
     public void addCaseToDatabase(Map<String, String> caseDetails) {
         database.add(caseDetails);
+        addToCSV(caseDetails);
     }
 
     public List<Map<String, String>> findSimilarCases(RbcDados rbcDados, double threshold) {
@@ -114,11 +116,11 @@ public class Rbc {
         return diff >= 1 && diff < 8000 ? peso : 0.0;
     }
 
-    private void populateDatabase() {
+    private void populateDatabase(){
         database = new ArrayList<>();
 
         Csv csvDados = CsvHelper.leArquivo("/RBC_Venda_Carros_Matriz_Base_Dados.csv");
-        String[] chaves = csvDados.getCabecalho();
+        chaves = csvDados.getCabecalho();
 
         for (int i = 0; i < csvDados.getLinhas().size() - 1; i++) {
             Map<String, String> caso = new HashMap<>();
@@ -129,6 +131,20 @@ public class Rbc {
 
             this.addCaseToDatabase(caso);
         }
+    }
+
+    public void addToCSV(Map<String, String> caseDetails){
+
+        List<String[]> output = new ArrayList<>();
+        String linha[] = new String[chaves.length];
+        for (int i = 0; i < caseDetails.size(); i++) {
+            for (int j = 0; j < chaves.length; j++) {
+                linha[i] = caseDetails.get(chaves[j]);
+            }
+        }
+        output.add(linha);
+        CsvHelper.escreveLinhaArquivo("/RBC_Venda_Carros_Matriz_Base_Dados.csv", output);
+
     }
 
     private void populateCor() {
