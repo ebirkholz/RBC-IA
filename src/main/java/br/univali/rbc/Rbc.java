@@ -24,7 +24,6 @@ public class Rbc {
 
     public void addCaseToDatabase(Map<String, String> caseDetails) {
         database.add(caseDetails);
-        addToCSV(caseDetails);
     }
 
     public List<Map<String, String>> findSimilarCases(RbcDados rbcDados, double threshold) {
@@ -69,10 +68,18 @@ public class Rbc {
             if (attribute.equalsIgnoreCase("cor")) {
                 int queryIndex = getCorIndex(queryValue);
                 int dbIndex = getCorIndex(databaseValue);
+
+                this.validaPesoIndex(queryValue, queryIndex);
+                this.validaPesoIndex(databaseValue, dbIndex);
+
                 return corSimilarityMatrix.get(queryIndex).get(dbIndex) + rbcDados.getValoresPesos().get(attribute);
             } else if (attribute.equalsIgnoreCase("modelo")) {
                 int queryIndex = getModeloIndex(queryValue);
                 int dbIndex = getModeloIndex(databaseValue);
+
+                this.validaPesoIndex(queryValue, queryIndex);
+                this.validaPesoIndex(databaseValue, dbIndex);
+
                 return modeloSimilarityMatrix.get(queryIndex).get(dbIndex) + rbcDados.getValoresPesos().get(attribute);
             } else if (attribute.equalsIgnoreCase("preço")) {
                 return this.calculaPrecoSimilar(databaseValue, queryValue, rbcDados.getValoresPesos().get(attribute));
@@ -116,6 +123,12 @@ public class Rbc {
         return diff >= 1 && diff < 8000 ? peso : 0.0;
     }
 
+    private void validaPesoIndex(String value, Integer index) {
+        if (index < 0) {
+            throw new RuntimeException(String.format("Falha para encontrar o valor de %s, na matriz de pesos!", value));
+        }
+    }
+
     private void populateDatabase(){
         database = new ArrayList<>();
 
@@ -131,20 +144,6 @@ public class Rbc {
 
             this.addCaseToDatabase(caso);
         }
-    }
-
-    public void addToCSV(Map<String, String> caseDetails){
-
-        List<String[]> output = new ArrayList<>();
-        String linha[] = new String[chaves.length];
-        for (int i = 0; i < caseDetails.size(); i++) {
-            for (int j = 0; j < chaves.length; j++) {
-                linha[i] = caseDetails.get(chaves[j]);
-            }
-        }
-        output.add(linha);
-        CsvHelper.escreveLinhaArquivo("/RBC_Venda_Carros_Matriz_Base_Dados.csv", output);
-
     }
 
     private void populateCor() {

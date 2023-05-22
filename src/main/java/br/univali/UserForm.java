@@ -1,5 +1,6 @@
 package br.univali;
 
+import br.univali.csv.CsvHelper;
 import br.univali.rbc.Rbc;
 import br.univali.rbc.RbcDados;
 
@@ -115,9 +116,17 @@ public class UserForm {
             public void actionPerformed(ActionEvent e) {
                 queryCase.put("Veiculo Vendido", carroSelecionado.getText());
                 rbc.addCaseToDatabase(queryCase);
-
+                CsvHelper.escreveLinhaArquivo("/RBC_Venda_Carros_Matriz_Base_Dados.csv", getLinhaDados());
+                // TODO: escrever matriz de pesos
             }
         });
+    }
+
+    private List<String[]> getLinhaDados() {
+        List<String[]> response = new ArrayList<>();
+        response.add(queryCase.values().toArray(new String[0]));
+
+        return response;
     }
 
     public static void main(String[] args){
