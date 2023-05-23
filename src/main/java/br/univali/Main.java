@@ -2,15 +2,19 @@ package br.univali;
 
 import br.univali.rbc.Rbc;
 import br.univali.rbc.RbcDados;
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        Rbc rbc = new Rbc();
+        executaCliente();
+//        executaTesteLogica();
+    }
 
-        // TODO: substituir valores de queryCase e valoresPesos, pelas infos que vem do usuário
+    private static void executaTesteLogica() {
+        Rbc rbc = new Rbc();
         Map<String, String> queryCase = new HashMap<>();
         queryCase.put("Marca", "Volkswagen");
         queryCase.put("Modelo", "Gol");
@@ -40,12 +44,16 @@ public class Main {
 
         List<Map<String, String>> similarCases = rbc.findSimilarCases(rbcDados, 0.8);
 
-        /* TODO: decidir se o usuário comprou o carro ou não e adicionar novo caso na base de dados e .cvs
-            database = Rbc.database
-         */
-
         for (Map<String, String> similarCase : similarCases) {
             System.out.println(similarCase);
         }
+    }
+
+    private static void executaCliente() {
+        JFrame jFrame = new JFrame("Reconhecedor de Linguagens Regulares");
+        jFrame.setContentPane(new UserForm().userForm);
+        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        jFrame.pack();
+        jFrame.setVisible(true);
     }
 }

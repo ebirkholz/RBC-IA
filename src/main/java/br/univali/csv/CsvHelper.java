@@ -10,9 +10,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CsvHelper {
+
+    private CsvHelper() {}
 
     public static Csv leArquivo(String nomeArquivo) {
         try {
@@ -35,7 +38,7 @@ public class CsvHelper {
         }
     }
 
-    public static void escreveLinhaArquivo(String nomeArquivo, List<String[]> linhas) {
+    public static void escreveLinhaArquivo(String nomeArquivo, String[] ...linhas) {
         try {
             URL fileUrl = CsvHelper.class.getResource(nomeArquivo);
 
@@ -44,9 +47,8 @@ public class CsvHelper {
             }
 
             CSVReader reader = new CSVReader(new FileReader(fileUrl.getFile()));
-            List<String[]> linhasFinal = new ArrayList<>();
-            linhasFinal.addAll(reader.readAll());
-            linhasFinal.addAll(linhas);
+            List<String[]> linhasFinal = new ArrayList<>(reader.readAll());
+            Collections.addAll(linhasFinal, linhas);
             reader.close();
 
             CSVWriter writer = new CSVWriter(new FileWriter(fileUrl.getFile()));
@@ -62,7 +64,7 @@ public class CsvHelper {
         }
     }
 
-    public static void escreveColuna(String nomeArquivo, String[] nomePesos) {
+    public static void escreveLinhaColuna(String nomeArquivo, List<String> valores) {
         try {
             URL fileUrl = CsvHelper.class.getResource(nomeArquivo);
 
@@ -78,9 +80,13 @@ public class CsvHelper {
             for (int i = 0; i < dados.size(); i++) {
                 String[] linha = dados.get(i).split(",");
                 List<String> linhaDados = new ArrayList<>(Arrays.asList(linha));
-                linhaDados.add(dados.size(), nomePesos[i]);
+                linhaDados.add(valores.get(i));
                 printWriter.println(String.join(",", linhaDados));
             }
+
+            valores.add("1.0");
+
+            printWriter.println(String.join(",", valores));
 
             printWriter.close();
         } catch (Exception e) {

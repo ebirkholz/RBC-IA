@@ -68,19 +68,19 @@ public class Rbc {
             if (attribute.equalsIgnoreCase("cor")) {
                 int queryIndex = getCorIndex(queryValue);
                 int dbIndex = getCorIndex(databaseValue);
+                double valorMatrix = queryIndex < 0 || dbIndex < 0
+                        ? 0.0
+                        : corSimilarityMatrix.get(queryIndex).get(dbIndex);
 
-                this.validaPesoIndex(queryValue, queryIndex);
-                this.validaPesoIndex(databaseValue, dbIndex);
-
-                return corSimilarityMatrix.get(queryIndex).get(dbIndex) + rbcDados.getValoresPesos().get(attribute);
+                return valorMatrix + rbcDados.getValoresPesos().get(attribute);
             } else if (attribute.equalsIgnoreCase("modelo")) {
                 int queryIndex = getModeloIndex(queryValue);
                 int dbIndex = getModeloIndex(databaseValue);
+                double valorMatrix = queryIndex < 0 || dbIndex < 0
+                        ? 0.0
+                        : modeloSimilarityMatrix.get(queryIndex).get(dbIndex);
 
-                this.validaPesoIndex(queryValue, queryIndex);
-                this.validaPesoIndex(databaseValue, dbIndex);
-
-                return modeloSimilarityMatrix.get(queryIndex).get(dbIndex) + rbcDados.getValoresPesos().get(attribute);
+                return valorMatrix + rbcDados.getValoresPesos().get(attribute);
             } else if (attribute.equalsIgnoreCase("preço")) {
                 return this.calculaPrecoSimilar(databaseValue, queryValue, rbcDados.getValoresPesos().get(attribute));
             }
@@ -121,12 +121,6 @@ public class Rbc {
         int diff = (int) Math.abs(caseValor - queryValor);
 
         return diff >= 1 && diff < 8000 ? peso : 0.0;
-    }
-
-    private void validaPesoIndex(String value, Integer index) {
-        if (index < 0) {
-            throw new RuntimeException(String.format("Falha para encontrar o valor de %s, na matriz de pesos!", value));
-        }
     }
 
     private void populateDatabase(){
@@ -180,5 +174,17 @@ public class Rbc {
 
             modeloSimilarityMatrix.add(valores);
         }
+    }
+
+    public String[] getChavesCor() {
+        return chavesCor;
+    }
+
+    public String[] getChavesModelo() {
+        return chavesModelo;
+    }
+
+    public String[] getChaves() {
+        return chaves;
     }
 }
